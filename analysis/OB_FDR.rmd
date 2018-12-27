@@ -38,12 +38,15 @@ for (i in seq(nsim)) {
 }
 ```
 
-```{r}
+```{r, cache = TRUE}
 FDP.mat <- sapply(qvalue.list, FUN = function (qvalue, q.vec, theta) {
   sapply(q.vec, FDP.fun, qvalue, theta)
 }, q.vec, theta)
 FDP.mat <- t(FDP.mat)
 colnames(FDP.mat) <- q.vec
+```
+
+```{r}
 FDP.mean <- colMeans(FDP.mat)
 FDP.975 <- apply(FDP.mat, 2, quantile, 0.975)
 FDP.025 <- apply(FDP.mat, 2, quantile, 0.025)
