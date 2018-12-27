@@ -1,0 +1,72 @@
+---
+title: "Ordering hypotheses by Oracle lfdr"
+author: "Lei Sun"
+date: "2018-12-27"
+output:
+  workflowr::wflow_html:
+    code_folding: show
+---
+
+```{r}
+source("../code/OracleBayesMT.R")
+```
+
+```{r}
+theta <- c(rep(0, 9e3),
+           rep(1, 200),
+           rep(2, 200),
+           rep(3, 200),
+           rep(4, 200),
+           rep(5, 200))
+theta <- sample(theta)
+N <- length(theta)
+response <- (theta != 0)
+s <- rchisq(N, df = 10)
+s <- s / sqrt(mean(s^2))
+```
+
+```{r}
+set.seed(777)
+nsim <- 1e3
+MTLR.auc <- ODP.auc <- MTLR.z.auc <- pvalue.auc <- BH.auc <- c()
+for (i in seq(nsim)) {
+  x <- rnorm(N, theta, s)
+  
+  MTLR <- MTLR.fun(x, theta, s)
+  MTLR.auc[i] <- pROC::auc(response, predictor = MTLR)
+  
+  ODP <- ODP.fun(x, theta, s)
+  ODP.auc[i] <- pROC::auc(response, predictor = ODP)
+  
+  pvalue <- pnorm(-abs(x / s)) * 2
+  pvalue.auc[i] <- pROC::auc(response, predictor = pvalue)
+  
+  BH <- p.adjust(pvalue, method = "BH")
+  BH.auc[i] <- pROC::auc(response, predictor = BH)
+  
+  MTLR.z <- MTLR.fun(x / s, theta / s, rep(1, N))
+  MTLR.z.auc[i] <- pROC::auc(response, predictor = MTLR.z)
+}
+
+auc.mat <- cbind.data.frame(
+  MTLR = MTLR.auc,
+  ODP = ODP.auc,
+  MTLR.z = MTLR.z.auc,
+  pvalue = pvalue.auc,
+  BH = BH.auc
+)
+```
+
+```{r}
+saveRDS(theta, "~/Desktop/theta.rds")
+saveRDS(s, "~/Desktop/s.rds")
+
+saveRDS(auc.mat, "~/Desktop/auc.mat.rds")
+```
+
+```{r}
+boxplot(auc.mat, las = 2, cex.axis = 0.75)
+hist(auc.mat$MTLR - auc.mat$ODP, xlim = range(0, auc.mat$MTLR - auc.mat$ODP), main = "MTLR vs ODP", xlab = expression(Delta[AUC]))
+hist(auc.mat$MTLR - auc.mat$MTLR.z, xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.z), main = "MTLR on X,s vs MTLR on z", xlab = expression(Delta[AUC]))
+hist(auc.mat$MTLR.z - auc.mat$ODP, xlim = range(0, auc.mat$MTLR.z - auc.mat$ODP), main = "MTLR on z vs ODP", xlab = expression(Delta[AUC]))
+```

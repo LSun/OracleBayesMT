@@ -5,4 +5,4 @@ output:
     toc: false
 ---
 
-Describe your project.
+An exploratory project to investigate the Oracle Bayes perspective on multiple testing.

@@ -1,0 +1,56 @@
+---
+title: "FDR control by Oracle lfdr"
+author: "Lei Sun"
+date: "2018-12-27"
+output:
+  workflowr::wflow_html:
+    code_folding: show
+---
+
+```{r}
+source("../code/OracleBayesMT.R")
+```
+
+```{r}
+theta <- c(rep(0, 9e3),
+           rep(1, 200),
+           rep(2, 200),
+           rep(3, 200),
+           rep(4, 200),
+           rep(5, 200))
+theta <- sample(theta)
+N <- length(theta)
+response <- (theta != 0)
+s <- rchisq(N, df = 10)
+s <- s / sqrt(mean(s^2))
+q.vec <- 1 : 1e4 / 1e4
+```
+
+```{r, cache = TRUE}
+set.seed(777)
+nsim <- 1e3
+qvalue.list <- list()
+for (i in seq(nsim)) {
+  x <- rnorm(N, theta, s)
+  
+  lfdr <- olfdr.fun(x, theta, s)
+  qvalue.list[[i]] <- ashr::qval.from.lfdr(lfdr)
+}
+```
+
+```{r}
+FDP.mat <- sapply(qvalue.list, FUN = function (qvalue, q.vec, theta) {
+  sapply(q.vec, FDP.fun, qvalue, theta)
+}, q.vec, theta)
+FDP.mat <- t(FDP.mat)
+colnames(FDP.mat) <- q.vec
+FDP.mean <- colMeans(FDP.mat)
+FDP.975 <- apply(FDP.mat, 2, quantile, 0.975)
+FDP.025 <- apply(FDP.mat, 2, quantile, 0.025)
+```
+
+```{r}
+plot(q.vec, FDP.mean, xlab = "Nominal FDR", ylab = "Average FDP", type = "l", lwd = 2)
+lines(0 : 1, 0 : 1, lty = 2, col = "red")
+polygon(x = c(q.vec, rev(q.vec)), y = c(FDP.025, rev(FDP.975)), col = grDevices::rgb(0, 0, 1, alpha = 0.5))
+```

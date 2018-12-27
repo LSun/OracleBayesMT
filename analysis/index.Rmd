@@ -1,9 +1,13 @@
 ---
-title: "Home"
+title: "Oracle Bayes Multiple Testing"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
 ---
 
-Welcome to my research website.
+Building on [Jiang and Zhang (2009)][], [Brown and Greenshtein (2009)][], [Efron (2018)][] introduces the concept of "Oracle Bayes" as a way to understand Empirical Bayes (EB) in the context of shrinkage estimation and risk reduction. Here we use Oracle Bayes to explore the connection among frequentist, Bayesian, and EB approaches in simultaneous hypothesis testing.
+
+[Jiang and Zhang (2009)]: https://projecteuclid.org/euclid.aos/1245332828
+[Brown and Greenshtein (2009)]: https://projecteuclid.org/euclid.aos/1245332829
+[Efron (2018)]: http://statweb.stanford.edu/~ckirby/brad/papers/2018BayesOBayesEBayes.pdf
