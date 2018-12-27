@@ -25,7 +25,7 @@ s <- rchisq(N, df = 10)
 s <- s / sqrt(mean(s^2))
 ```
 
-```{r}
+```{r, cache = TRUE}
 set.seed(777)
 nsim <- 1e3
 MTLR.auc <- ODP.auc <- MTLR.z.auc <- pvalue.auc <- BH.auc <- c()
@@ -58,15 +58,99 @@ auc.mat <- cbind.data.frame(
 ```
 
 ```{r}
-saveRDS(theta, "~/Desktop/theta.rds")
-saveRDS(s, "~/Desktop/s.rds")
+barplot(table(theta),
+        main = expression(paste("Distribution of ", theta)), cex.main = 2,
+        xlab = expression(theta),
+        ylab = "Count", cex.lab = 1.5)
 
-saveRDS(auc.mat, "~/Desktop/auc.mat.rds")
+hist(s,
+     main = expression("Histogram of s"), cex.main = 2,
+     cex.lab = 1.5)
+
+boxplot(auc.mat, las = 2, cex.axis = 1,
+        main = expression("Distribution of AUC"), cex.main = 2,
+        cex.lab = 1.5,
+        names = c("MTLR", "ODP", "MTLR.z", "p-value", "BH"))
+
+hist(auc.mat$MTLR - auc.mat$ODP,
+     xlim = range(0, auc.mat$MTLR - auc.mat$ODP),
+     main = expression("MTLR vs ODP"), cex.main = 2,
+     xlab = expression(Delta[AUC]), cex.lab = 1.5)
+
+hist(auc.mat$MTLR - auc.mat$MTLR.z,
+     xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.z),
+     main = expression("MTLR on X,s vs MTLR on z"), cex.main = 2,
+     xlab = expression(Delta[AUC]), cex.lab = 1.5)
+
+hist(auc.mat$MTLR.z - auc.mat$ODP,
+     xlim = range(0, auc.mat$MTLR.z - auc.mat$ODP),
+     main = expression("MTLR on z vs ODP"), cex.main = 2,
+     xlab = expression(Delta[AUC]), cex.lab = 1.5)
 ```
 
 ```{r}
-boxplot(auc.mat, las = 2, cex.axis = 0.75)
-hist(auc.mat$MTLR - auc.mat$ODP, xlim = range(0, auc.mat$MTLR - auc.mat$ODP), main = "MTLR vs ODP", xlab = expression(Delta[AUC]))
-hist(auc.mat$MTLR - auc.mat$MTLR.z, xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.z), main = "MTLR on X,s vs MTLR on z", xlab = expression(Delta[AUC]))
-hist(auc.mat$MTLR.z - auc.mat$ODP, xlim = range(0, auc.mat$MTLR.z - auc.mat$ODP), main = "MTLR on z vs ODP", xlab = expression(Delta[AUC]))
+pdf("../figures/theta.pdf", width = 5, height = 5)
+
+par(mar = c(4.5, 4.5, 4.5, 1))
+
+barplot(table(theta),
+        main = expression(paste("Distribution of ", theta)), cex.main = 2,
+        xlab = expression(theta),
+        ylab = "Count", cex.lab = 1.5)
+
+invisible(dev.off())
+
+pdf("../figures/s.pdf", width = 5, height = 5)
+
+par(mar = c(4.5, 4.5, 4.5, 1))
+
+hist(s,
+     main = expression("Histogram of s"), cex.main = 2,
+     cex.lab = 1.5)
+
+invisible(dev.off())
+
+pdf("../figures/auc.pdf", width = 5, height = 5)
+
+par(mar = c(4.5, 4.5, 4.5, 1))
+
+boxplot(auc.mat, las = 2, cex.axis = 1,
+        main = expression("Distribution of AUC"), cex.main = 2,
+        cex.lab = 1.5,
+        names = c("MTLR", "ODP", "MTLR.z", "p-value", "BH"))
+
+invisible(dev.off())
+
+pdf("../figures/MTLRvsODP.pdf", width = 5, height = 5)
+
+par(mar = c(4.5, 4.5, 4.5, 1))
+
+hist(auc.mat$MTLR - auc.mat$ODP,
+     xlim = range(0, auc.mat$MTLR - auc.mat$ODP),
+     main = expression("MTLR vs ODP"), cex.main = 2,
+     xlab = expression(Delta[AUC]), cex.lab = 1.5)
+
+invisible(dev.off())
+
+pdf("../figures/MTLRvsMTLRz.pdf", width = 5, height = 5)
+
+par(mar = c(4.5, 4.5, 4.5, 1))
+
+hist(auc.mat$MTLR - auc.mat$MTLR.homosk,
+     xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.homosk),
+     main = expression("MTLR on X,s vs MTLR on z"), cex.main = 2,
+     xlab = expression(Delta[AUC]), cex.lab = 1.5)
+
+invisible(dev.off())
+
+pdf("../figures/MTLRzvsODP.pdf", width = 5, height = 5)
+
+par(mar = c(4.5, 4.5, 4.5, 1))
+
+hist(auc.mat$MTLR.homosk - auc.mat$ODP,
+     xlim = range(0, auc.mat$MTLR.homosk - auc.mat$ODP),
+     main = expression("MTLR on z vs ODP"), cex.main = 2,
+     xlab = expression(Delta[AUC]), cex.lab = 1.5)
+
+invisible(dev.off())
 ```
