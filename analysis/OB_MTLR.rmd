@@ -136,8 +136,8 @@ pdf("../figures/MTLRvsMTLRz.pdf", width = 5, height = 5)
 
 par(mar = c(4.5, 4.5, 4.5, 1))
 
-hist(auc.mat$MTLR - auc.mat$MTLR.homosk,
-     xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.homosk),
+hist(auc.mat$MTLR - auc.mat$MTLR.z,
+     xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.z),
      main = expression("MTLR on X,s vs MTLR on z"), cex.main = 2,
      xlab = expression(Delta[AUC]), cex.lab = 1.5)
 
@@ -147,8 +147,8 @@ pdf("../figures/MTLRzvsODP.pdf", width = 5, height = 5)
 
 par(mar = c(4.5, 4.5, 4.5, 1))
 
-hist(auc.mat$MTLR.homosk - auc.mat$ODP,
-     xlim = range(0, auc.mat$MTLR.homosk - auc.mat$ODP),
+hist(auc.mat$MTLR.z - auc.mat$ODP,
+     xlim = range(0, auc.mat$MTLR.z - auc.mat$ODP),
      main = expression("MTLR on z vs ODP"), cex.main = 2,
      xlab = expression(Delta[AUC]), cex.lab = 1.5)
 
