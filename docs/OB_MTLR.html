@@ -361,7 +361,7 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/e6b25cc98515cf2b117f3c31258bf0dd0531831e" target="_blank">e6b25cc</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/e7e08267e91053376ddb4b4149f88dcd9d38e75c" target="_blank">e7e0826</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -401,6 +401,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/LSun/OracleBayesMT/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/OB_MTLR.html" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 rmd
@@ -503,30 +520,216 @@ auc.mat &lt;- cbind.data.frame(
         xlab = expression(theta),
         ylab = &quot;Count&quot;, cex.lab = 1.5)</code></pre>
 <p><img src="figure/OB_MTLR.rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/figure/OB_MTLR.rmd/unnamed-chunk-4-1.png" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>hist(s,
      main = expression(&quot;Histogram of s&quot;), cex.main = 2,
      cex.lab = 1.5)</code></pre>
 <p><img src="figure/OB_MTLR.rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-4-2.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/figure/OB_MTLR.rmd/unnamed-chunk-4-2.png" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>boxplot(auc.mat, las = 2, cex.axis = 1,
         main = expression(&quot;Distribution of AUC&quot;), cex.main = 2,
         cex.lab = 1.5,
         names = c(&quot;MTLR&quot;, &quot;ODP&quot;, &quot;MTLR.z&quot;, &quot;p-value&quot;, &quot;BH&quot;))</code></pre>
 <p><img src="figure/OB_MTLR.rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-4-3.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/figure/OB_MTLR.rmd/unnamed-chunk-4-3.png" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>hist(auc.mat$MTLR - auc.mat$ODP,
      xlim = range(0, auc.mat$MTLR - auc.mat$ODP),
      main = expression(&quot;MTLR vs ODP&quot;), cex.main = 2,
      xlab = expression(Delta[AUC]), cex.lab = 1.5)</code></pre>
 <p><img src="figure/OB_MTLR.rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-4-4.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/figure/OB_MTLR.rmd/unnamed-chunk-4-4.png" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>hist(auc.mat$MTLR - auc.mat$MTLR.z,
      xlim = range(0, auc.mat$MTLR - auc.mat$MTLR.z),
      main = expression(&quot;MTLR on X,s vs MTLR on z&quot;), cex.main = 2,
      xlab = expression(Delta[AUC]), cex.lab = 1.5)</code></pre>
 <p><img src="figure/OB_MTLR.rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-4-5.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/figure/OB_MTLR.rmd/unnamed-chunk-4-5.png" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>hist(auc.mat$MTLR.z - auc.mat$ODP,
      xlim = range(0, auc.mat$MTLR.z - auc.mat$ODP),
      main = expression(&quot;MTLR on z vs ODP&quot;), cex.main = 2,
      xlab = expression(Delta[AUC]), cex.lab = 1.5)</code></pre>
 <p><img src="figure/OB_MTLR.rmd/unnamed-chunk-4-6.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-4-6.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/e7e08267e91053376ddb4b4149f88dcd9d38e75c/docs/figure/OB_MTLR.rmd/unnamed-chunk-4-6.png" target="_blank">e7e0826</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2018-12-27
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>pdf(&quot;../figures/theta.pdf&quot;, width = 5, height = 5)
 
 par(mar = c(4.5, 4.5, 4.5, 1))
