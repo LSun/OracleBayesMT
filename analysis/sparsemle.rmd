@@ -4,19 +4,40 @@ author: "Lei Sun"
 date: "2019-01-16"
 output:
   workflowr::wflow_html:
-    code_folding: show
+    code_folding: hide
 ---
 
 ## Introduction
 
-A quick simulation to compare PMcC's `sparsemle` and `ashr`. The observations are signals plus Gaussian noise, and the signals are 90\% zero.
+This is a quick simulation to compare PMcC's `sparsemle` and Matthew's `ashr`. The observations are signals plus Gaussian noise, and the signals are 90\% zero.
+$$
+\begin{aligned}
+z_j &\overset{\text{iid}}{\sim} N(\theta_j, 1)\\
+\theta_j &\overset{\text{iid}}{\sim} g = 0.9\delta_0 + 0.1 g_1
+\end{aligned}
+$$
 
-```{r}
+The quantities we are comparing for each $j = 1, \ldots, p$ are `lfpr` from `sparsemle` which is computed as
+$$
+\begin{aligned}
+\text{lfpr}(z_j)=\frac{1-\rho}{1-\rho+\rho\zeta(z_j, d)},
+\end{aligned}
+$$
+and `lfdr` from `ashr` which is
+$$
+\begin{aligned}
+\text{lfdr}(z_j)=\text{Pr}(\theta_j = 0|z_j, \hat g)
+\end{aligned}
+$$
+
+```{r, fig.show = 'hide'}
 source("http://www.stat.uchicago.edu/~pmcc/courses/sparsity.R")
 library(ashr)
 ```
 
 ## Unimodal signals
+
+Here $g_1 = N(0, 3^2)$.
 
 ```{r}
 set.seed(777)
@@ -26,11 +47,13 @@ fit.sparsemle <- sparsemle(z)
 fit.ashr <- ashr::ash(z, 1)
 lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
 hist(theta, xlab = expression(theta))
-plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison on lfdr")
+plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison: lfdr vs lfpr")
 abline(0, 1, col = "blue", lty = 2)
 ```
 
 ## Point-mass signals
+
+Here $g_1 = \delta_3$, a point mass at $3$.
 
 ```{r}
 set.seed(777)
@@ -40,7 +63,44 @@ fit.sparsemle <- sparsemle(z)
 fit.ashr <- ashr::ash(z, 1)
 lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
 hist(theta, xlab = expression(theta))
-plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison on lfdr")
+plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison: lfdr vs lfpr")
 abline(0, 1, col = "blue", lty = 2)
 ```
 
+## No exact null
+
+We now make a small change to the setting: here $g = 0.9N(0, 0.5^2) + 0.1g_1$, i.e., no $\theta_j$ that is exactly zero.
+
+### Unimodal signals
+
+$g_1 = N(0, 3^2)$
+
+```{r}
+set.seed(777)
+theta <- sample(c(rnorm(900, 0, 0.5), rnorm(100, 0, 3)))
+z <- theta + rnorm(1000)
+fit.sparsemle <- sparsemle(z)
+fit.ashr <- ashr::ash(z, 1)
+lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))
+plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison: lfdr vs lfpr")
+abline(0, 1, col = "blue", lty = 2)
+```
+
+### Point-mass signals
+
+```{r}
+set.seed(777)
+theta <- sample(c(rnorm(900, 0, 0.5), rep(3, 100)))
+z <- theta + rnorm(1000)
+fit.sparsemle <- sparsemle(z)
+fit.ashr <- ashr::ash(z, 1)
+lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))
+plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison: lfdr vs lfpr")
+abline(0, 1, col = "blue", lty = 2)
+```
+
+## Remarks
+
+Generally speaking, `lfpr` from `sparsemle` is roughly comparable to `lfdr` from `ashr`, although `lfdr` from `ashr` is usually slightly less conservative than `lfpr` from `sparsemle` when both are small. Interestingly, they are most similar when we have unimodal signals and no exact nulls.
