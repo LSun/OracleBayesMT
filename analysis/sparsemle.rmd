@@ -1,5 +1,5 @@
 ---
-title: "Comparing PMcC's `sparsemle` and `ashr`"
+title: "Comparing PMcC's `sparsemle` and Matthew's `ashr`"
 author: "Lei Sun"
 date: "2019-01-16"
 output:
