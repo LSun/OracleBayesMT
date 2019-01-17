@@ -10,6 +10,7 @@ Building on [Jiang and Zhang (2009)][], [Brown and Greenshtein (2009)][], [Efron
 
 * [Ordering hypotheses by Oracle lfdr](OB_MTLR.html)
 * [Controlling FDR by Oracle lfdr](OB_FDR.html)
+* [Comparing `sparsemle` and `ashr`](sparsemle.html)
 
 [Jiang and Zhang (2009)]: https://projecteuclid.org/euclid.aos/1245332828
 [Brown and Greenshtein (2009)]: https://projecteuclid.org/euclid.aos/1245332829
