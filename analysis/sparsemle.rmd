@@ -1,0 +1,46 @@
+---
+title: "Comparing PMcC's `sparsemle` and `ashr`"
+author: "Lei Sun"
+date: "2019-01-16"
+output:
+  workflowr::wflow_html:
+    code_folding: show
+---
+
+## Introduction
+
+A quick simulation to compare PMcC's `sparsemle` and `ashr`. The observations are signals plus Gaussian noise, and the signals are 90\% zero.
+
+```{r}
+source("http://www.stat.uchicago.edu/~pmcc/courses/sparsity.R")
+library(ashr)
+```
+
+## Unimodal signals
+
+```{r}
+set.seed(777)
+theta <- sample(c(rep(0, 900), rnorm(100, 0, 3)))
+z <- theta + rnorm(1000)
+fit.sparsemle <- sparsemle(z)
+fit.ashr <- ashr::ash(z, 1)
+lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))
+plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison on lfdr")
+abline(0, 1, col = "blue", lty = 2)
+```
+
+## Point-mass signals
+
+```{r}
+set.seed(777)
+theta <- sample(c(rep(0, 900), rep(3, 100)))
+z <- theta + rnorm(1000)
+fit.sparsemle <- sparsemle(z)
+fit.ashr <- ashr::ash(z, 1)
+lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))
+plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "Sparse MLE", ylab = "ashr", main = "Comparison on lfdr")
+abline(0, 1, col = "blue", lty = 2)
+```
+
