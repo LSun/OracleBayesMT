@@ -171,7 +171,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("show" === "show");
+  window.initializeCodeFolding("hide" === "show");
 });
 </script>
 
@@ -332,7 +332,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-01-16</p>
+<p><strong>Last updated:</strong> 2019-01-17</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -361,7 +361,7 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/cfe58a28e5bd3766c87113944507518c9de01141" target="_blank">cfe58a2</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/f5f7fee6324e5cbc573daffc3d9f26a56a6e4513" target="_blank">f5f7fee</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -404,6 +404,40 @@ Message
 rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/f5f7fee6324e5cbc573daffc3d9f26a56a6e4513/analysis/sparsemle.rmd" target="_blank">f5f7fee</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-17
+</td>
+<td style="text-align:left;">
+wflow_publish(“analysis/sparsemle.rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/LSun/OracleBayesMT/8ffd3cca3224924e16b096ea2f38b05e99d9db96/docs/sparsemle.html" target="_blank">8ffd3cc</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-16
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/LSun/OracleBayesMT/blob/cfe58a28e5bd3766c87113944507518c9de01141/analysis/sparsemle.rmd" target="_blank">cfe58a2</a>
 </td>
 <td style="text-align:left;">
@@ -423,13 +457,27 @@ wflow_publish(“sparsemle.rmd”)
 <hr />
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>A quick simulation to compare PMcC’s <code>sparsemle</code> and <code>ashr</code>. The observations are signals plus Gaussian noise, and the signals are 90% zero.</p>
+<p>This is a quick simulation to compare PMcC’s <code>sparsemle</code> and Matthew’s <code>ashr</code>. The observations are signals plus Gaussian noise, and the signals are 90% zero. <span class="math display">\[
+\begin{aligned}
+z_j &amp;\overset{\text{iid}}{\sim} N(\theta_j, 1)\\
+\theta_j &amp;\overset{\text{iid}}{\sim} g = 0.9\delta_0 + 0.1 g_1
+\end{aligned}
+\]</span></p>
+<p>The quantities we are comparing for each <span class="math inline">\(j = 1, \ldots, p\)</span> are <code>lfpr</code> from <code>sparsemle</code> which is computed as <span class="math display">\[
+\begin{aligned}
+\text{lfpr}(z_j)=\frac{1-\rho}{1-\rho+\rho\zeta(z_j, d)},
+\end{aligned}
+\]</span> and <code>lfdr</code> from <code>ashr</code> which is <span class="math display">\[
+\begin{aligned}
+\text{lfdr}(z_j)=\text{Pr}(\theta_j = 0|z_j, \hat g)
+\end{aligned}
+\]</span></p>
 <pre class="r"><code>source(&quot;http://www.stat.uchicago.edu/~pmcc/courses/sparsity.R&quot;)
 library(ashr)</code></pre>
-<p><img src="figure/sparsemle.rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="unimodal-signals" class="section level2">
 <h2>Unimodal signals</h2>
+<p>Here <span class="math inline">\(g_1 = N(0, 3^2)\)</span>.</p>
 <pre class="r"><code>set.seed(777)
 theta &lt;- sample(c(rep(0, 900), rnorm(100, 0, 3)))
 z &lt;- theta + rnorm(1000)
@@ -438,12 +486,75 @@ fit.ashr &lt;- ashr::ash(z, 1)
 lfpr &lt;- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
 hist(theta, xlab = expression(theta))</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison on lfdr&quot;)
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/8ffd3cca3224924e16b096ea2f38b05e99d9db96/docs/figure/sparsemle.rmd/unnamed-chunk-2-1.png" target="_blank">8ffd3cc</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-16
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-2-2.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/8ffd3cca3224924e16b096ea2f38b05e99d9db96/docs/figure/sparsemle.rmd/unnamed-chunk-2-2.png" target="_blank">8ffd3cc</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-16
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 </div>
 <div id="point-mass-signals" class="section level2">
 <h2>Point-mass signals</h2>
+<p>Here <span class="math inline">\(g_1 = \delta_3\)</span>, a point mass at <span class="math inline">\(3\)</span>.</p>
 <pre class="r"><code>set.seed(777)
 theta &lt;- sample(c(rep(0, 900), rep(3, 100)))
 z &lt;- theta + rnorm(1000)
@@ -452,9 +563,108 @@ fit.ashr &lt;- ashr::ash(z, 1)
 lfpr &lt;- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
 hist(theta, xlab = expression(theta))</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison on lfdr&quot;)
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/8ffd3cca3224924e16b096ea2f38b05e99d9db96/docs/figure/sparsemle.rmd/unnamed-chunk-3-1.png" target="_blank">8ffd3cc</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-16
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-3-2.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/8ffd3cca3224924e16b096ea2f38b05e99d9db96/docs/figure/sparsemle.rmd/unnamed-chunk-3-2.png" target="_blank">8ffd3cc</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-16
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div id="no-exact-null" class="section level2">
+<h2>No exact null</h2>
+<p>We now make a small change to the setting: here <span class="math inline">\(g = 0.9N(0, 0.5^2) + 0.1g_1\)</span>, i.e., no <span class="math inline">\(\theta_j\)</span> that is exactly zero.</p>
+<div id="unimodal-signals-1" class="section level3">
+<h3>Unimodal signals</h3>
+<p><span class="math inline">\(g_1 = N(0, 3^2)\)</span></p>
+<pre class="r"><code>set.seed(777)
+theta &lt;- sample(c(rnorm(900, 0, 0.5), rnorm(100, 0, 3)))
+z &lt;- theta + rnorm(1000)
+fit.sparsemle &lt;- sparsemle(z)
+fit.ashr &lt;- ashr::ash(z, 1)
+lfpr &lt;- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="point-mass-signals-1" class="section level3">
+<h3>Point-mass signals</h3>
+<pre class="r"><code>set.seed(777)
+theta &lt;- sample(c(rnorm(900, 0, 0.5), rep(3, 100)))
+z &lt;- theta + rnorm(1000)
+fit.sparsemle &lt;- sparsemle(z)
+fit.ashr &lt;- ashr::ash(z, 1)
+lfpr &lt;- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="remarks" class="section level2">
+<h2>Remarks</h2>
+<p>Generally speaking, <code>lfpr</code> from <code>sparsemle</code> is roughly comparable to <code>lfdr</code> from <code>ashr</code>, although <code>lfdr</code> from <code>ashr</code> is usually slightly less conservative than <code>lfpr</code> from <code>sparsemle</code> when both are small. Interestingly, they are most similar when we have unimodal signals and no exact nulls.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
