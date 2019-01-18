@@ -361,13 +361,15 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/9c57a59da417ce684937bcab0a0d6324f57ea560" target="_blank">9c57a59</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/cfba731feba65169abca5495659fdbbf03c265fb" target="_blank">cfba731</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/OB_FDR_cache/
+    Ignored:    analysis/OB_MTLR_cache/
     Ignored:    figures/
 
 </code></pre>
@@ -399,6 +401,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/cfba731feba65169abca5495659fdbbf03c265fb/analysis/sparsemle.rmd" target="_blank">cfba731</a>
+</td>
+<td style="text-align:left;">
+LSun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+<td style="text-align:left;">
+wflow_publish(“analysis/sparsemle.rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/LSun/OracleBayesMT/440a22e15f1601b7d775744dde9cc789b349afd2/docs/sparsemle.html" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 rmd
@@ -1884,31 +1920,248 @@ Lei Sun
 <div id="differing-lfdr-and-lfsr" class="section level2">
 <h2>Differing <code>lfdr</code> and <code>lfsr</code></h2>
 <pre class="r"><code>set.seed(777)
-theta &lt;- sample(c(rep(0, 600), rnorm(200, -3, 1), rnorm(200, 3, 1)))
+theta &lt;- rnorm(1000, 0, 2)
 z &lt;- theta + rnorm(1000)
 fit.sparsemle &lt;- sparsemle(z)
 fit.ashr &lt;- ashr::ash(z, 1)
 lfpr &lt;- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
 hist(theta, xlab = expression(theta))</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-1.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>plot(lfpr, inactivity_rate(fit.sparsemle), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;inactivity rate (Sparse MLE)&quot;, main = &quot;lfpr vs inactivity rate&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-2.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-2.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = &quot;lfdr (ashr)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfdr vs lfsr&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-3.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-3.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;lfpr vs lfdr&quot;, xlim = c(0, 1), ylim = c(0, 1))
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-4.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-4.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfpr vs lfsr&quot;, xlim = c(0, 1), ylim = c(0, 1))
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-5.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-5.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-5.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;inactivity rate vs lfdr&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-6.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-6.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-6.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;inactivity rate vs lfsr&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-7-7.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of unnamed-chunk-7-7.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/440a22e15f1601b7d775744dde9cc789b349afd2/docs/figure/sparsemle.rmd/unnamed-chunk-7-7.png" target="_blank">440a22e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 </div>
 <div id="remarks" class="section level2">
 <h2>Remarks</h2>
@@ -1919,7 +2172,7 @@ abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.4.3 (2017-11-30)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Running under: macOS  10.14.2
 
 Matrix products: default
 BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -1932,21 +2185,21 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ashr_2.2-3
+[1] ashr_2.2-7
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0        knitr_1.20        whisker_0.3-2    
- [4] magrittr_1.5      workflowr_1.1.1   REBayes_1.2      
+ [1] Rcpp_0.12.16      knitr_1.20        whisker_0.3-2    
+ [4] magrittr_1.5      workflowr_1.1.1   REBayes_1.3      
  [7] MASS_7.3-50       pscl_1.5.2        doParallel_1.0.11
 [10] SQUAREM_2017.10-1 lattice_0.20-35   foreach_1.4.4    
-[13] stringr_1.3.0     tools_3.4.3       parallel_3.4.3   
+[13] stringr_1.3.1     tools_3.4.3       parallel_3.4.3   
 [16] grid_3.4.3        R.oo_1.22.0       git2r_0.23.0     
 [19] htmltools_0.3.6   iterators_1.0.9   assertthat_0.2.0 
-[22] yaml_2.1.18       rprojroot_1.3-2   digest_0.6.15    
-[25] Matrix_1.2-12     codetools_0.2-15  R.utils_2.7.0    
-[28] evaluate_0.10.1   rmarkdown_1.9     stringi_1.1.6    
+[22] yaml_2.1.19       rprojroot_1.3-2   digest_0.6.15    
+[25] Matrix_1.2-14     codetools_0.2-15  R.utils_2.6.0    
+[28] evaluate_0.10.1   rmarkdown_1.9     stringi_1.2.2    
 [31] compiler_3.4.3    Rmosek_8.0.69     backports_1.1.2  
-[34] R.methodsS3_1.7.1 truncnorm_1.0-7  </code></pre>
+[34] R.methodsS3_1.7.1 truncnorm_1.0-8  </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
