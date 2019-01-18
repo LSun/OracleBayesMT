@@ -361,7 +361,7 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/2d05a7cb133b179c31f62a429c5201e2c1da0bc9" target="_blank">2d05a7c</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/LSun/OracleBayesMT/tree/5be2c15a9657dc8633ca7e4916412ce9e3e728b0" target="_blank">5be2c15</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -399,6 +399,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/LSun/OracleBayesMT/blob/5be2c15a9657dc8633ca7e4916412ce9e3e728b0/analysis/sparsemle.rmd" target="_blank">5be2c15</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-17
+</td>
+<td style="text-align:left;">
+wflow_publish(“analysis/sparsemle.rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/LSun/OracleBayesMT/c1c351ecf6d3bedce7cab204a96b7efddf79e1ed/docs/sparsemle.html" target="_blank">c1c351e</a>
+</td>
+<td style="text-align:left;">
+Lei Sun
+</td>
+<td style="text-align:left;">
+2019-01-17
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 rmd
@@ -551,7 +585,7 @@ Lei Sun
 </tbody>
 </table>
 </details>
-<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
+<pre class="r"><code>plot(lfpr, inactivity_rate(fit.sparsemle), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;inactivity rate (Sparse MLE)&quot;, main = &quot;lfpr vs inactivity rate&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
 <details>
@@ -596,6 +630,21 @@ Lei Sun
 </tbody>
 </table>
 </details>
+<pre class="r"><code>plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = &quot;lfdr (ashr)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfdr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;lfpr vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfpr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-2-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;inactivity rate vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-2-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;inactivity rate vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-2-7.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="point-mass-signals" class="section level2">
 <h2>Point-mass signals</h2>
@@ -639,7 +688,7 @@ Lei Sun
 </tbody>
 </table>
 </details>
-<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
+<pre class="r"><code>plot(lfpr, inactivity_rate(fit.sparsemle), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;inactivity rate (Sparse MLE)&quot;, main = &quot;lfpr vs inactivity rate&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
 <details>
@@ -684,6 +733,21 @@ Lei Sun
 </tbody>
 </table>
 </details>
+<pre class="r"><code>plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = &quot;lfdr (ashr)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfdr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;lfpr vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfpr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-3-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;inactivity rate vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-3-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;inactivity rate vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-3-7.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="no-exact-null" class="section level2">
 <h2>No exact null</h2>
@@ -730,7 +794,7 @@ Lei Sun
 </tbody>
 </table>
 </details>
-<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
+<pre class="r"><code>plot(lfpr, inactivity_rate(fit.sparsemle), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;inactivity rate (Sparse MLE)&quot;, main = &quot;lfpr vs inactivity rate&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
 <details>
@@ -764,6 +828,21 @@ Lei Sun
 </tbody>
 </table>
 </details>
+<pre class="r"><code>plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = &quot;lfdr (ashr)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfdr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;lfpr vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfpr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;inactivity rate vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;inactivity rate vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-4-7.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="point-mass-signals-1" class="section level3">
 <h3>Point-mass signals</h3>
@@ -806,7 +885,7 @@ Lei Sun
 </tbody>
 </table>
 </details>
-<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;Sparse MLE&quot;, ylab = &quot;ashr&quot;, main = &quot;Comparison: lfdr vs lfpr&quot;)
+<pre class="r"><code>plot(lfpr, inactivity_rate(fit.sparsemle), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;inactivity rate (Sparse MLE)&quot;, main = &quot;lfpr vs inactivity rate&quot;)
 abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
 <p><img src="figure/sparsemle.rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
 <details>
@@ -840,11 +919,56 @@ Lei Sun
 </tbody>
 </table>
 </details>
+<pre class="r"><code>plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = &quot;lfdr (ashr)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfdr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;lfpr vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfpr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;inactivity rate vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;inactivity rate vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-5-7.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
+</div>
+<div id="fat-tailed-signals" class="section level2">
+<h2>Fat-tailed signals</h2>
+<p>As suggested by PMcC, we now try this more sparse and more fat-tailed signal distribution: <span class="math inline">\(g = 0.95\delta_0 + 0.05 t_2\)</span></p>
+<pre class="r"><code>set.seed(777)
+theta &lt;- sample(c(rep(0, 950), rt(50, 2)))
+z &lt;- theta + rnorm(1000)
+fit.sparsemle &lt;- sparsemle(z)
+fit.ashr &lt;- ashr::ash(z, 1)
+lfpr &lt;- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+hist(theta, xlab = expression(theta))</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, inactivity_rate(fit.sparsemle), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;inactivity rate (Sparse MLE)&quot;, main = &quot;lfpr vs inactivity rate&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = &quot;lfdr (ashr)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfdr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;lfpr vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = &quot;lfpr (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;lfpr vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfdr (ashr)&quot;, main = &quot;inactivity rate vs lfdr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = &quot;inactivity rate (Sparse MLE)&quot;, ylab = &quot;lfsr (ashr)&quot;, main = &quot;inactivity rate vs lfsr&quot;)
+abline(0, 1, col = &quot;blue&quot;, lty = 2)</code></pre>
+<p><img src="figure/sparsemle.rmd/unnamed-chunk-6-7.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="remarks" class="section level2">
 <h2>Remarks</h2>
-<p>Generally speaking, <code>lfpr</code> from <code>sparsemle</code> is roughly comparable to <code>lfdr</code> from <code>ashr</code>, although <code>lfdr</code> from <code>ashr</code> is usually slightly less conservative than <code>lfpr</code> from <code>sparsemle</code> when both are small. Interestingly, they are most similar when we have unimodal signals and no exact nulls.</p>
+<p><code>sparsemle</code> provides <code>lfpr</code> and <code>inactivity rate</code>, while <code>ashr</code> provides <code>lfdr</code> and <code>lfsr</code>. All four numbers are quantifying the extent to which an observation <span class="math inline">\(Z_j\)</span> is associated with a non-signal. Generally speaking, <code>inactivity rate</code> is more conservative than <code>lfpr</code>, which is more conservative (when it is small) than <code>lfdr</code> and <code>lfsr</code>. The difference between <code>inactivity rate</code> and <code>lfpr</code> could be notable in some simulation settings, while in all of our settings, <code>lfpr</code> is quite comparable to <code>lfdr</code> and <code>lfsr</code>, and <code>lfdr</code> and <code>lfsr</code> are essentially indistinguishable. Interestingly, <code>lfpr</code> and <code>lfdr</code> (<code>lfsr</code>) are most similar when we have unimodal signals and no exact nulls.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
