@@ -168,29 +168,68 @@ plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = "inactivit
 abline(0, 1, col = "blue", lty = 2)
 ```
 
-## Differing `lfdr` and `lfsr`
+## Comparing `lfsr` (`ashr`) and `lfpr` (`sparsemle`)
+
+In order to generate visible difference between the estimated `lfdr` and `lfsr` from `ashr`, in this simulation $\theta_j \sim g = N(0, 2^2)$, and so $g$ has no point mass at zero. We first compute `lfpr` from `sparsemle`.
+
+When applying `ashr` we are using the following two settings:
+
+1. `method = "shrink"`: when estimating $g$, `ashr` doesn't impose a point mass at zero. Under this setting, `lfdr` will be 0 for all $j$, but we can compute `lfsr`, which is defined as
+$$
+\text{lfsr}_j := \min\{
+\text{Pr}(\theta_j \geq 0 \mid Z_j, \hat g), \ 
+\text{Pr}(\theta_j \leq 0 \mid Z_j, \hat g)
+\}
+$$
+2. `method = "fdr"`: when estimating $g$, `ashr` does impose a point mass at zero and encourage conservative over-estimation of this point mass proportion. Under this setting, we can compute both `lfdr` and `lfsr`. Presumbly, these two estimates should be visibly different.
+
+In addition, note that under the Bayesian oracle $\theta \sim N(0, 2^2), Z \sim N(\theta, 1)$, `lfsr` can be computed analytically as $\Phi(-2|Z|/\sqrt5)$.
+
+To sum up, in this simulation we are comparing five quantities:
+
+    - the oracle `lfsr`
+    - the estimated `lfsr` from `ashr` using non point mass
+    - the estimated `lfsr` from `ashr` using point mass
+    - the estimated `lfdr` from `ashr` using point mass
+    - the `lfpr` from `sparsemle`.
+
+We put the oracle `lfsr` on the x axis, and other four quantities on the y axis to compare them all.
 
 ```{r}
 set.seed(777)
 theta <- rnorm(1000, 0, 2)
 z <- theta + rnorm(1000)
-fit.sparsemle <- sparsemle(z)
-fit.ashr <- ashr::ash(z, 1)
-lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+
 hist(theta, xlab = expression(theta))
-plot(lfpr, inactivity_rate(fit.sparsemle), xlab = "lfpr (Sparse MLE)", ylab = "inactivity rate (Sparse MLE)", main = "lfpr vs inactivity rate")
-abline(0, 1, col = "blue", lty = 2)
-plot(ashr::get_lfdr(fit.ashr), ashr::get_lfsr(fit.ashr), xlab = "lfdr (ashr)", ylab = "lfsr (ashr)", main = "lfdr vs lfsr")
-abline(0, 1, col = "blue", lty = 2)
-plot(lfpr, ashr::get_lfdr(fit.ashr), xlab = "lfpr (Sparse MLE)", ylab = "lfdr (ashr)", main = "lfpr vs lfdr", xlim = c(0, 1), ylim = c(0, 1))
-abline(0, 1, col = "blue", lty = 2)
-plot(lfpr, ashr::get_lfsr(fit.ashr), xlab = "lfpr (Sparse MLE)", ylab = "lfsr (ashr)", main = "lfpr vs lfsr", xlim = c(0, 1), ylim = c(0, 1))
-abline(0, 1, col = "blue", lty = 2)
-plot(inactivity_rate(fit.sparsemle), ashr::get_lfdr(fit.ashr), xlab = "inactivity rate (Sparse MLE)", ylab = "lfdr (ashr)", main = "inactivity rate vs lfdr")
-abline(0, 1, col = "blue", lty = 2)
-plot(inactivity_rate(fit.sparsemle), ashr::get_lfsr(fit.ashr), xlab = "inactivity rate (Sparse MLE)", ylab = "lfsr (ashr)", main = "inactivity rate vs lfsr")
-abline(0, 1, col = "blue", lty = 2)
+
+fit.sparsemle <- sparsemle(z)
+fit.ashr.shrink <- ashr::ash(z, 1, method = "shrink")
+fit.ashr.fdr <- ashr::ash(z, 1, method = "fdr")
+lfsr.oracle <- pnorm(-2 * abs(z) / sqrt(1 + 2^2))
+lfpr <- (1 - fit.sparsemle$rho) / (1 - fit.sparsemle$rho + fit.sparsemle$rho * zeta_ip(z))
+lfsr.shrink <- ashr::get_lfsr(fit.ashr.shrink)
+lfsr.fdr <- ashr::get_lfsr(fit.ashr.fdr)
+lfdr.fdr <- ashr::get_lfdr(fit.ashr.fdr)
+order.lfsr.oracle <- order(lfsr.oracle)
+
+plot(lfsr.oracle, lfsr.shrink, pch = 19, cex = 0.5, xlim = c(0, 0.5), ylim = c(0, 0.5),
+     xlab = "lfsr (Oracle)", ylab = "other quantities")
+points(lfsr.oracle, lfsr.fdr, pch = 19, cex = 0.5, col = 4)
+points(lfsr.oracle, lfdr.fdr, pch = 19, cex = 0.5, col = 3)
+points(lfsr.oracle, lfpr, pch = 19, cex = 0.5, col = 2)
+legend("bottomright", col = c(1, 4, 3, 2), pch = 19, c(
+  "lfsr (no point mass)",
+  "lfsr (point mass)",
+  "lfdr (point mass)",
+  "lfpr (sparsemle)"
+))
 ```
+
+It appears that
+
+1. The `lfsr` from `ashr` using no point mass at zero (black) are very close to the oracle, which shows that `ashr` as an empirical Bayes method works pretty well when $g$ is correctly specified.
+2. All other three quantities are more conservative than the oracle.
+3. `lfpr` from `sparsemle` appears to be most closely related to `lfsr` from `ashr` using (a misspecified) point mass at zero.
 
 ## Remarks
 
